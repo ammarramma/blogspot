@@ -1,17 +1,38 @@
+import { socials } from '../data/profile'
+
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 py-8 mt-20">
-      <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-        <p>&copy; {new Date().getFullYear()} Ammar. Built with React + Tailwind.</p>
-        <div className="flex gap-6">
-          <a href="https://www.github.com/ammarramma" target="_blank" rel="noopener" className="hover:text-white transition-colors">
-            GitHub
-          </a>
-          <a href="https://www.linkedin.com/in/ammar-shiddiq-bb538833a" target="_blank" rel="noopener" className="hover:text-white transition-colors">
-            LinkedIn
-          </a>
-          <a href="mailto:hello@ramma.dev" className="hover:text-white transition-colors">
-            Email
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 font-mono text-[11px] text-fg-dim md:flex-row md:items-center md:justify-between">
+        <p className="leading-6">
+          <span className="text-accent">$</span> exit
+          <span aria-hidden="true" className="mx-2 text-line-strong">
+            /
+          </span>
+          © {new Date().getFullYear()} Ammar
+          <span aria-hidden="true" className="mx-2 text-line-strong">
+            /
+          </span>
+          Built with React, Tailwind, and too much time in the terminal.
+        </p>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          {socials.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              target={social.href.startsWith('mailto:') ? undefined : '_blank'}
+              rel={
+                social.href.startsWith('mailto:')
+                  ? undefined
+                  : 'noopener noreferrer'
+              }
+              className="transition-colors hover:text-fg"
+            >
+              {social.label}
+            </a>
+          ))}
+          <a href="#top" className="transition-colors hover:text-fg">
+            back to top ↑
           </a>
         </div>
       </div>
