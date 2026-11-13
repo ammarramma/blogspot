@@ -304,6 +304,7 @@ Links: GitHub · LinkedIn · Email · Back to top.
 
 1. **Resume PDF** — generated from the data layer with `npm run resume`
    (`scripts/generate-resume.mjs`) and served from `public/resume.pdf`.
+   Text-only, no photo.
 2. **Arch Linux** — kept in the neofetch panel.
 3. **Phone number** — kept private; the site shows email, GitHub, and LinkedIn
    only.

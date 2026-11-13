@@ -37,18 +37,7 @@ doc.pipe(fs.createWriteStream(path.join(root, 'public', 'resume.pdf')))
 
 /* ---------- header ---------- */
 
-const avatarSize = 58
-doc.save()
-doc
-  .circle(M + avatarSize / 2, 38 + avatarSize / 2, avatarSize / 2)
-  .clip()
-doc.image(path.join(root, 'public', 'avatar-print.jpg'), M, 38, {
-  width: avatarSize,
-  height: avatarSize,
-})
-doc.restore()
-
-const textX = M + avatarSize + 18
+const textX = M
 
 doc
   .font('Helvetica-Bold')

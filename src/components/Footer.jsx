@@ -1,5 +1,7 @@
 import { socials } from '../data/profile'
 
+const year = new Date().getFullYear()
+
 export default function Footer() {
   return (
     <footer className="border-t border-line">
@@ -9,7 +11,7 @@ export default function Footer() {
           <span aria-hidden="true" className="mx-2 text-line-strong">
             /
           </span>
-          © {new Date().getFullYear()} Ammar
+          © {year} Ammar
           <span aria-hidden="true" className="mx-2 text-line-strong">
             /
           </span>
