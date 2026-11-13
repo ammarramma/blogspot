@@ -19,7 +19,7 @@ export default function Hero() {
       id="top"
       className="terminal-grid relative flex min-h-screen items-center pt-24 pb-16"
     >
-      <div className="mx-auto w-full max-w-6xl px-6">
+      <div className="shell">
         <motion.div {...fade}>
           <TerminalWindow
             title="ammar@lhokseumawe: ~"
@@ -30,7 +30,7 @@ export default function Hero() {
               <span className="text-accent">$</span> whoami
             </p>
 
-            <h1 className="mt-4 font-mono text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] font-bold tracking-[-0.04em]">
+            <h1 className="mt-4 font-mono text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] font-bold tracking-[-0.04em]">
               {profile.name}
               <span
                 aria-hidden="true"
@@ -47,7 +47,7 @@ export default function Hero() {
               </p>
             </div>
 
-            <p className="mt-8 max-w-xl text-[15px] leading-7 text-fg-muted">
+            <p className="mt-8 max-w-xl text-[0.9375rem] leading-7 text-fg-muted">
               {profile.tagline}
             </p>
 

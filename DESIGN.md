@@ -54,17 +54,24 @@ Selection: `background: #8BE9A8; color: #0A0C0B`.
 | Body copy | **IBM Plex Sans** | 400 / 500 / 600 |
 
 Scale (fluid where noted):
-- Hero name: `clamp(2.75rem, 7vw, 5.5rem)` · Mono 700 · tracking `-0.04em`
+- Hero name: `clamp(3rem, 9vw, 7.5rem)` · Mono 700 · tracking `-0.04em`
 - Section title: `1.5rem` · Mono 600
 - Command line: `0.9375rem` · Mono 400
 - Body: `1rem` / `1.75` · Plex Sans 400 · max `68ch`
 - Label: `0.75rem` · Mono 500 · uppercase · tracking `0.12em`
 - Meta: `0.8125rem` · Mono 400 · `--fg-dim`
 
+All text sizes are `rem`-based, and the root font size is fluid:
+`clamp(16px, 8px + 0.625vw, 20px)`. It reaches 17px at 1440, 18px at 1600,
+and 20px at 1920, so type, spacing, and radii grow continuously with the
+viewport — including when the user zooms out, which enlarges the CSS viewport.
+
 ### Space & layout
 - Base unit `4px`.
-- Container `1120px`, gutter `24px` (`32px` desktop).
-- Section padding `clamp(5rem, 10vw, 8rem)` vertical.
+- Page shell `.shell`: `max-width: clamp(72rem, 78vw, 92rem)`, gutter `24px`
+  (`32px` from `1280px`). Width is viewport-proportional above ~1600px, so the
+  page fills large monitors instead of floating as a fixed narrow column.
+- Section padding `clamp(5rem, 10vw, 8rem)` vertical (scaled by the rem steps).
 - Border radius: `6px` (windows and cards) — deliberately less round than v1.
 - Hairline `1px solid var(--line)` everywhere.
 
@@ -72,6 +79,10 @@ Scale (fluid where noted):
 - `< 768px`: single column, condensed status bar, cards stack.
 - `768–1024px`: two-column project grid.
 - `> 1024px`: full layout, neofetch panel beside About.
+- `1280px+`: type scale grows fluidly with the viewport.
+- `1600px+`: shell becomes viewport-proportional (`78vw`), so the layout keeps
+  filling the screen instead of floating as a narrow column on large monitors
+  or when the page is zoomed out.
 
 ---
 
@@ -111,7 +122,7 @@ Reusable frame used by the hero and each project card.
 - Section headers reuse it: `$ cat about.md`, `$ ls ~/projects`, `$ git log --career`, `$ mail ammar`.
 
 ### 3.4 Neofetch panel
-Two-column panel: avatar on the left, spec table on the right, in the About section.
+Text-only panel: spec table in the About section. No portrait is published.
 
 ```
 ammar@lhokseumawe
@@ -125,9 +136,7 @@ Tools       Git · GitHub · Linux CLI
 Status      Open to internships
 ```
 
-Avatar is rendered in grayscale by default and returns to color on hover, framed
-with a hairline and the caption `avatar.jpg · 512×512 · image/jpeg` — a nod to
-file metadata.
+The panel is text-only; no portrait is published on the site or in the resume.
 
 ### 3.5 Career log
 Experience, education, and certification rendered as `git log --career`:

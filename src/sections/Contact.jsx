@@ -36,7 +36,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="pb-24 sm:pb-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="shell">
         <SectionHeader
           command="mail ammar"
           index="05 / contact"
@@ -46,7 +46,7 @@ export default function Contact() {
 
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
           <Reveal>
-            <p className="max-w-sm text-[15px] leading-8 text-fg-muted">
+            <p className="max-w-sm text-[0.9375rem] leading-8 text-fg-muted">
               I read everything and reply within a day or two. Email is best,
               but GitHub and LinkedIn work too.
             </p>
@@ -76,7 +76,7 @@ export default function Contact() {
               ))}
             </ul>
 
-            <p className="mt-10 font-mono text-[11px] text-fg-dim">
+            <p className="mt-10 font-mono text-[0.6875rem] text-fg-dim">
               <span className="text-accent">#</span> currently in Lhokseumawe,
               Indonesia (UTC+7)
             </p>
@@ -102,7 +102,7 @@ export default function Contact() {
                   <button
                     type="button"
                     onClick={() => setState('idle')}
-                    className="mt-6 font-mono text-[11px] text-fg-dim underline decoration-line underline-offset-4 transition-colors hover:text-fg"
+                    className="mt-6 font-mono text-[0.6875rem] text-fg-dim underline decoration-line underline-offset-4 transition-colors hover:text-fg"
                   >
                     send another message
                   </button>
@@ -110,7 +110,7 @@ export default function Contact() {
               ) : (
                 <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
                   <label className="block">
-                    <span className="font-mono text-[11px] text-fg-dim">
+                    <span className="font-mono text-[0.6875rem] text-fg-dim">
                       from:
                     </span>
                     <input
@@ -125,7 +125,7 @@ export default function Contact() {
                   </label>
 
                   <label className="block">
-                    <span className="font-mono text-[11px] text-fg-dim">
+                    <span className="font-mono text-[0.6875rem] text-fg-dim">
                       email:
                     </span>
                     <input
@@ -140,7 +140,7 @@ export default function Contact() {
                   </label>
 
                   <label className="block">
-                    <span className="font-mono text-[11px] text-fg-dim">
+                    <span className="font-mono text-[0.6875rem] text-fg-dim">
                       message:
                     </span>
                     <textarea
@@ -154,7 +154,7 @@ export default function Contact() {
                   </label>
 
                   {state === 'error' ? (
-                    <p className="font-mono text-[11px] text-red">
+                    <p className="font-mono text-[0.6875rem] text-red">
                       $ error: message not sent. Try again or email me directly.
                     </p>
                   ) : null}

@@ -5,7 +5,7 @@ import { profile } from '../data/profile'
 export default function Skills() {
   return (
     <section id="skills" className="pb-24 sm:pb-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="shell">
         <SectionHeader
           command="stack --list"
           index="02 / stack"
@@ -20,14 +20,14 @@ export default function Skills() {
                 key={group.group}
                 className="grid gap-3 border-b border-line py-5 sm:grid-cols-[180px_1fr] sm:items-start sm:gap-6"
               >
-                <h3 className="font-mono text-[11px] tracking-[0.14em] text-fg-dim uppercase">
+                <h3 className="font-mono text-[0.6875rem] tracking-[0.14em] text-fg-dim uppercase">
                   {group.group}
                 </h3>
                 <ul className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
                     <li
                       key={item}
-                      className="rounded-sm border border-line bg-bg-1 px-2.5 py-1 font-mono text-[11px] text-fg-muted transition-colors hover:border-accent/40 hover:text-accent"
+                      className="rounded-sm border border-line bg-bg-1 px-2.5 py-1 font-mono text-[0.6875rem] text-fg-muted transition-colors hover:border-accent/40 hover:text-accent"
                     >
                       {item}
                     </li>

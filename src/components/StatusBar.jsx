@@ -42,7 +42,7 @@ export default function StatusBar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg-0/90 backdrop-blur-md">
       <nav
         aria-label="Primary"
-        className="mx-auto flex h-11 max-w-6xl items-center justify-between px-6"
+        className="shell flex h-11 items-center justify-between"
       >
         <a
           href="#top"
@@ -102,7 +102,7 @@ export default function StatusBar() {
           id="mobile-menu"
           className="border-t border-line bg-bg-0/95 backdrop-blur-md md:hidden"
         >
-          <ul className="mx-auto max-w-6xl px-6 py-2">
+          <ul className="shell py-2">
             {links.map((link) => (
               <li key={link.id}>
                 <a

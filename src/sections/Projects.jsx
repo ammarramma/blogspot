@@ -24,7 +24,7 @@ function ProjectCard({ project }) {
         ) : null}
       </div>
 
-      <p className="mt-4 font-mono text-[11px] text-fg-dim">{project.type}</p>
+      <p className="mt-4 font-mono text-[0.6875rem] text-fg-dim">{project.type}</p>
 
       <ul className="mt-4 space-y-1.5 text-sm leading-6 text-fg-muted">
         {project.bullets.map((bullet) => (
@@ -41,7 +41,7 @@ function ProjectCard({ project }) {
         {project.stack.map((tool) => (
           <li
             key={tool}
-            className="border border-line bg-bg-0 px-2 py-0.5 font-mono text-[10px] text-fg-dim"
+            className="border border-line bg-bg-0 px-2 py-0.5 font-mono text-[0.625rem] text-fg-dim"
           >
             {tool}
           </li>
@@ -53,7 +53,7 @@ function ProjectCard({ project }) {
           href={project.repo}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 font-mono text-[11px] text-fg-muted transition-colors hover:text-accent"
+          className="inline-flex items-center gap-2 font-mono text-[0.6875rem] text-fg-muted transition-colors hover:text-accent"
         >
           <span aria-hidden="true" className="text-accent">
             →
@@ -71,7 +71,7 @@ function ProjectCard({ project }) {
 export default function Projects() {
   return (
     <section id="projects" className="pb-24 sm:pb-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="shell">
         <SectionHeader
           command="ls ~/projects"
           index="03 / projects"

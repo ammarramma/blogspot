@@ -14,11 +14,11 @@ export default function TerminalWindow({
           aria-hidden="true"
           className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
         />
-        <span className="truncate font-mono text-[11px] text-fg-dim">
+        <span className="truncate font-mono text-[0.6875rem] text-fg-dim">
           {title}
         </span>
         {right ? (
-          <span className="ml-auto shrink-0 font-mono text-[11px] text-fg-dim">
+          <span className="ml-auto shrink-0 font-mono text-[0.6875rem] text-fg-dim">
             {right}
           </span>
         ) : null}

@@ -5,7 +5,7 @@ const year = new Date().getFullYear()
 export default function Footer() {
   return (
     <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 font-mono text-[11px] text-fg-dim md:flex-row md:items-center md:justify-between">
+      <div className="shell flex flex-col gap-4 py-8 font-mono text-[0.6875rem] text-fg-dim md:flex-row md:items-center md:justify-between">
         <p className="leading-6">
           <span className="text-accent">$</span> exit
           <span aria-hidden="true" className="mx-2 text-line-strong">

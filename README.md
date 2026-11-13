@@ -66,7 +66,7 @@ src/
 scripts/
   generate-resume.mjs
 public/
-  avatar.jpg, resume.pdf, favicon.svg
+  resume.pdf, favicon.svg
 ```
 
 ## Contact form

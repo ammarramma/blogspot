@@ -24,6 +24,7 @@
   html {
     scroll-behavior: smooth;
     background-color: var(--color-bg-0);
+    font-size: 16px;
   }
 
   body {
@@ -64,6 +65,27 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-line-strong);
+  }
+}
+
+/* Shared page shell: one width source for nav, sections, and footer. */
+.shell {
+  width: 100%;
+  margin-inline: auto;
+  max-width: clamp(72rem, 78vw, 92rem);
+  padding-inline: 1.5rem;
+}
+
+/* Fluid scale: type grows continuously with the viewport from 1280px up, so
+   zooming out (which enlarges the CSS viewport) actually grows the design
+   instead of leaving it pinned to a fixed desktop size. */
+html {
+  font-size: clamp(16px, 8px + 0.625vw, 20px);
+}
+
+@media (min-width: 1280px) {
+  .shell {
+    padding-inline: 2rem;
   }
 }
 

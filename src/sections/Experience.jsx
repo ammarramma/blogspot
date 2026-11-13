@@ -17,7 +17,7 @@ const typeText = {
 export default function Experience() {
   return (
     <section id="experience" className="pb-24 sm:pb-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="shell">
         <SectionHeader
           command="git log --career"
           index="04 / experience"
@@ -38,7 +38,7 @@ export default function Experience() {
                     typeTone[entry.type]
                   }`}
                 />
-                <div className="font-mono text-[11px] text-fg-dim">
+                <div className="font-mono text-[0.6875rem] text-fg-dim">
                   <span className="text-fg-muted">{entry.year}</span>
                   <span aria-hidden="true" className="mx-2 text-line-strong">
                     ·

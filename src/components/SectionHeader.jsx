@@ -9,12 +9,12 @@ export default function SectionHeader({ command, index, description, label }) {
           </span>
         </h2>
         <span aria-hidden="true" className="h-px flex-1 bg-line" />
-        <span className="shrink-0 font-mono text-[11px] text-fg-dim">
+        <span className="shrink-0 font-mono text-[0.6875rem] text-fg-dim">
           {index}
         </span>
       </div>
       {description ? (
-        <p className="mt-3 max-w-2xl text-[15px] leading-7 text-fg-muted">
+        <p className="mt-3 max-w-2xl text-[0.9375rem] leading-7 text-fg-muted">
           {description}
         </p>
       ) : null}

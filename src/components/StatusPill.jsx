@@ -7,7 +7,7 @@ const tones = {
 export default function StatusPill({ tone = 'accent', children }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-sm border px-2.5 py-1 font-mono text-[11px] whitespace-nowrap ${tones[tone]}`}
+      className={`inline-flex items-center gap-2 rounded-sm border px-2.5 py-1 font-mono text-[0.6875rem] whitespace-nowrap ${tones[tone]}`}
     >
       <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
       {children}
