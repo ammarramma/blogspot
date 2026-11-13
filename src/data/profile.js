@@ -5,7 +5,10 @@ export const profile = {
   headline: 'D-IV Information Technology student',
   location: 'Lhokseumawe, Aceh, Indonesia',
   status: 'Open to internship opportunities',
-  email: 'ammarshiddiq2@gmail.com',
+  email: 'contact@ammarramma.dev',
+  // Long-lived address for resumes and primary accounts; the domain address
+  // above is only guaranteed to live as long as the site domain does.
+  resumeEmail: 'ammarramma.work@gmail.com',
   github: 'https://github.com/ammarramma',
   githubLabel: 'github.com/ammarramma',
   linkedin: 'https://linkedin.com/in/ammarramma',

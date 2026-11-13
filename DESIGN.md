@@ -259,6 +259,9 @@ message:  [ ...                  ]
 ```
 - Success state: `$ message sent` + `I'll get back to you within a day or two.`
 - Direct links: email, GitHub, LinkedIn.
+- Email split by media lifespan: the site uses `contact@ammarramma.dev`
+  (tied to the domain), while `resume.pdf` uses `ammarramma.work@gmail.com`
+  so printed CVs keep working if the domain ever expires.
 
 ### 4.7 Footer — `$ exit`
 

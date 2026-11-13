@@ -57,7 +57,7 @@ doc
   .text(`${profile.headline} · ${profile.location}`, textX, 85)
 
 const contact = [
-  profile.email,
+  profile.resumeEmail,
   profile.githubLabel,
   profile.linkedinLabel,
   profile.location,
@@ -266,7 +266,7 @@ doc
   .fontSize(7)
   .fillColor(dim)
   .text(
-    `${profile.email}   ·   ${profile.githubLabel}   ·   ${profile.linkedinLabel}`,
+    `${profile.resumeEmail}   ·   ${profile.githubLabel}   ·   ${profile.linkedinLabel}`,
     M,
     footerY + 8,
     { width: PAGE_W - M * 2, align: 'center' },
