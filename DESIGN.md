@@ -170,8 +170,8 @@ Rows are separated by hairlines; the card lifts gently on hover.
   span two columns; they only receive the badge in the top-right corner.
 - `Live Demo ↗` appears only when `liveUrl` exists; `Source ↗` only when `repo`
   exists. Links open in a new tab with `noopener noreferrer`.
-- Category tabs (`All`, `Security & API`, `Web Apps`, `CLI / Go`) are derived
-  from `projectCategories`, exposed as a `role="group"` with `aria-pressed`, and
+- Category tabs (`All`, `Security & API`, `CLI / Go`) are derived from
+  `projectCategories`, exposed as a `role="group"` with `aria-pressed`, and
   animated with a shared `layoutId` pill.
 - Cards animate with Framer Motion `layout` inside `AnimatePresence
   mode="popLayout"`; the live count reads `NN / NN projects`.
@@ -240,7 +240,7 @@ Pills lift and shift to the ring color on hover/focus.
 
 ### 4.4 Projects
 
-Five projects in a uniform two-column grid; all bullets are shown.
+Three projects in a uniform two-column grid; all bullets are shown.
 
 **Vibe-Check Security Scanner** · `v1.0.0` · released · featured
 Security & API · React 19 · TypeScript · Tailwind CSS · Cloudflare Workers
@@ -248,14 +248,8 @@ Security & API · React 19 · TypeScript · Tailwind CSS · Cloudflare Workers
 **mapi — Modular API Gateway** · `v1.0.0` · released · featured
 Security & API · Go · Gin · Caddy · Linux VPS · systemd
 
-**SIPERPUS PNL** · `v1.3.0` · released
-Web Apps · React · TypeScript · Supabase · Tailwind CSS
-
 **Prayer Times** · `v0.1.1` · released
 CLI / Go · Go · TUI
-
-**Group Manage** · in development
-Web Apps · PHP · Laravel · MySQL · PHPUnit
 
 Copy and links live in `src/data/projects.js`; the site is the complete view.
 
@@ -291,9 +285,9 @@ No shell prompt or terminal joke.
   gap `10pt`.
 - Two columns: education / certification / skills on the left; profile,
   projects, and experience on the right.
-- The PDF shows the first four projects (`projects.slice(0, 4)`), with up to
-  three of the most important bullets per project. The website still shows every
-  project and every bullet.
+- The PDF shows up to the first four projects (`projects.slice(0, 4)`; currently
+  three), with up to three of the most important bullets per project. The website
+  still shows every project and every bullet.
 - No continuation header, page-two flow, or multi-page footer.
 - The script asserts that the measured content ends above the bottom margin.
 
@@ -359,8 +353,7 @@ No shell prompt or terminal joke.
    full-width featured treatment.
 3. **Phone number** — kept private; the site shows email, GitHub, and LinkedIn
    only.
-4. **SIPERPUS repo** — `github.com/RPL-TI-3B/ver3` is public and linked.
-5. **Theme default** — dark (Rosé Pine Main); Dawn Light is opt-in and persisted
+4. **Theme default** — dark (Rosé Pine Main); Dawn Light is opt-in and persisted
    in `localStorage`.
-6. **Hero pattern** — the dotted background is a masked pseudo-element, not a
+5. **Hero pattern** — the dotted background is a masked pseudo-element, not a
    mask on the section, so content stays fully opaque.

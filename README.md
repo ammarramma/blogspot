@@ -41,7 +41,7 @@ All copy and project data live in two files:
 
 These are the single source of truth. Add a project object and the grid,
 category tabs, and resume pick it up automatically. The site shows every project
-and every bullet; the one-page resume uses the first four projects with a
+and every bullet; the one-page resume uses up to the first four projects with a
 shortened bullet list to stay on one A4 page.
 
 ## Design
