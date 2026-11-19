@@ -9,7 +9,7 @@ import Contact from './sections/Contact'
 
 export default function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <a href="#main" className="skip-link">
         Skip to content
       </a>

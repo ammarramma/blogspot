@@ -1,323 +1,366 @@
-# Portfolio Redesign — Design Brief
+# Portfolio — Design Brief
 
-**Direction:** Terminal / TUI dark · Single-page scroll · English (professional)
-**Source of truth:** `CV-Ammar.png` — content in the current site is outdated and will be replaced.
-**Status:** Implemented. Content comes from `CV-Ammar.png`; the resume PDF is
-generated from the same data (`npm run resume`). Arch Linux is kept in the
-neofetch panel, and the phone number stays off the public site.
+**Owner:** Ammar · Backend, Web & Security Engineer
+**Direction:** Editorial / modern studio · Rosé Pine (dark by default, Dawn light) · single-page scroll · English
+**Status:** Implemented. Content lives in `src/data/profile.js` and
+`src/data/projects.js`; the one-page resume PDF is generated from the same data
+with `npm run resume`.
 
 ---
 
 ## 1. Concept
 
-> The portfolio behaves like a shell session.
+> A calm, editorial portfolio for an engineer who cares about clarity.
 
-Every section is framed as a command and its output. The site should feel like a
-well-configured terminal: quiet, precise, fast, and intentional. The Visual
-Communication Design background shows up in the typography and spacing, not in
-decoration.
+The site is set like a well-made studio profile: large Playfair headlines, quiet
+Atkinson Hyperlegible body copy, thin rules, generous whitespace, and a small
+amount of JetBrains Mono for technical metadata. Rosé Pine supplies the
+atmosphere, not decoration.
 
 **Rules**
-- No gradient blobs, no glassmorphism, no floating 3D shapes.
-- Color is semantic: green = interactive/active, amber = in progress, red = error.
-- Motion is functional (reveal, focus, cursor), never ornamental.
-- Monospace for structure; humanist sans for reading.
+- No terminal chrome, shell prompts, fake command output, window dots, or
+  blinking cursors.
+- No gradient blobs, glassmorphism, floating 3D shapes, or sponsor/donation UI.
+- Color is semantic: iris/pine = interactive, rose = live, gold = in
+  development, muted = metadata.
+- Motion is functional (reveal, focus, filter transition), never ornamental.
+- Every project card is the same size; featured work is a badge, not a layout
+  exception.
 
 ---
 
 ## 2. Design tokens
 
-### Color
+### 2.1 Rosé Pine palette
 
-| Token | Hex | Use |
+The theme is implemented with OKLCH variables in `src/index.css` and mapped into
+Tailwind v4 through `@theme inline`. Hex values below are the canonical Rosé
+Pine equivalents.
+
+| Token | Dark (Main) | Light (Dawn) | Use |
+|---|---|---|---|
+| `--background` | `#191724` | `#faf4ed` | Page background |
+| `--foreground` | `#e0def4` | `#575279` | Primary text |
+| `--card` | `#1f1d2e` | `#fffaf3` | Cards and form surfaces |
+| `--muted` | `#26233a` | `#f2e9e1` | Quiet surfaces |
+| `--muted-foreground` | `#6e6a86` | `#797593` | Secondary text, metadata |
+| `--border` | `#403d52` | `#dfdad9` | Hairlines, borders |
+| `--primary` | `#e0def4` | `#575279` | Emphasis, active nav, buttons |
+| `--ring` | `#c4a7e7` | `#907aa9` | Focus ring, hover borders |
+| `--chart-1` | `#f6c177` | `#ea9d34` | Gold / in development |
+| `--chart-2` | `#eb6f92` | `#b4637a` | Rose / live indicator |
+| `--chart-3` | `#31748f` | `#286983` | Pine |
+| `--chart-4` | `#9ccfd8` | `#56949f` | Foam / accents |
+| `--chart-5` | `#c4a7e7` | `#907aa9` | Iris / timeline work marker |
+| `--destructive` | `#eb6f92` | `#b4637a` | Form errors |
+
+Selection uses `--primary` / `--primary-foreground`. Body background and color
+transition over `200ms` when the theme changes.
+
+### 2.2 Theme system
+
+- `<html class="dark" data-theme="dark">` is the default.
+- An inline pre-paint script in `index.html` reads `localStorage['theme']`
+  (`'dark'` or `'light'`) and applies the class, `data-theme`,
+  `color-scheme`, and the `theme-color` meta value before React loads.
+- The navigation bar exposes a visible **Dark / Dawn** toggle with a moon/sun
+  icon. It updates the same attributes and persists the preference; failures are
+  caught so private-mode browsing still works.
+- CSS uses `@custom-variant dark (&:is(.dark *))`, so every component works in
+  both variants without duplicated markup.
+
+### 2.3 Typography
+
+| Role | Family | Notes |
 |---|---|---|
-| `--bg-0` | `#0A0C0B` | Page background |
-| `--bg-1` | `#101311` | Panels, cards |
-| `--bg-2` | `#161A17` | Hover / elevated |
-| `--line` | `#262C28` | Hairlines, borders |
-| `--line-strong` | `#3A423C` | Hover borders, focus |
-| `--fg` | `#E8ECE6` | Primary text |
-| `--fg-muted` | `#9AA39B` | Secondary text |
-| `--fg-dim` | `#6B746D` | Metadata, timestamps |
-| `--accent` | `#8BE9A8` | Prompt, links, active nav |
-| `--accent-strong` | `#5FE08A` | Hover, focus ring |
-| `--amber` | `#E6B450` | In-development status, warnings |
-| `--red` | `#F07178` | Errors, unavailable status |
+| Display | **Playfair** | Hero name, section headings, project and timeline titles |
+| Body / UI | **Atkinson Hyperlegible** | Paragraphs, navigation, labels, buttons |
+| Technical metadata | **JetBrains Mono** | Section numbers, stack chips, project URLs |
 
-Selection: `background: #8BE9A8; color: #0A0C0B`.
-
-### Typography
-
-| Role | Family | Size / weight |
-|---|---|---|
-| Display / UI / labels | **JetBrains Mono** | 400 / 500 / 700 |
-| Body copy | **IBM Plex Sans** | 400 / 500 / 600 |
+Loaded from one Google Fonts request in `index.html`:
+Atkinson Hyperlegible 400/700, JetBrains Mono 400–700, Playfair 400/600/700.
 
 Scale (fluid where noted):
-- Hero name: `clamp(3rem, 9vw, 7.5rem)` · Mono 700 · tracking `-0.04em`
-- Section title: `1.5rem` · Mono 600
-- Command line: `0.9375rem` · Mono 400
-- Body: `1rem` / `1.75` · Plex Sans 400 · max `68ch`
-- Label: `0.75rem` · Mono 500 · uppercase · tracking `0.12em`
-- Meta: `0.8125rem` · Mono 400 · `--fg-dim`
+- Hero name: `clamp(4rem, 11vw, 9rem)` · Playfair 600 · tracking `-0.05em`
+- Section title: `1.875rem` → `2.25rem` · Playfair 600
+- Body: `0.9375rem` / `1.75` · Atkinson 400 · max `68ch`
+- Label / meta: `0.625–0.6875rem` · uppercase tracking `0.12–0.22em`
+- Project title: `1.5rem` · Playfair 600
 
-All text sizes are `rem`-based, and the root font size is fluid:
-`clamp(16px, 8px + 0.625vw, 20px)`. It reaches 17px at 1440, 18px at 1600,
-and 20px at 1920, so type, spacing, and radii grow continuously with the
-viewport — including when the user zooms out, which enlarges the CSS viewport.
+The root font size is fluid: `clamp(16px, 8px + 0.625vw, 20px)`, so type,
+spacing, and radii grow continuously with the viewport.
 
-### Space & layout
+### 2.4 Space & layout
+
 - Base unit `4px`.
 - Page shell `.shell`: `max-width: clamp(72rem, 78vw, 92rem)`, gutter `24px`
-  (`32px` from `1280px`). Width is viewport-proportional above ~1600px, so the
-  page fills large monitors instead of floating as a fixed narrow column.
-- Section padding `clamp(5rem, 10vw, 8rem)` vertical (scaled by the rem steps).
-- Border radius: `6px` (windows and cards) — deliberately less round than v1.
-- Hairline `1px solid var(--line)` everywhere.
+  (`32px` from `1280px`).
+- Section rhythm: `pb-24 sm:pb-32`; the hero uses `pt-32 sm:pt-40` and a natural
+  height rather than a forced `100svh`.
+- Radius: `0.5rem` (`--radius`); pills use a full radius.
+- `section[id]` has `scroll-margin-top: 5rem` to clear the fixed navigation bar.
+- The hero's dotted background is a `::before` layer with a radial mask, so the
+  pattern fades without affecting the content above it.
 
-### Breakpoints
-- `< 768px`: single column, condensed status bar, cards stack.
-- `768–1024px`: two-column project grid.
-- `> 1024px`: full layout, neofetch panel beside About.
-- `1280px+`: type scale grows fluidly with the viewport.
-- `1600px+`: shell becomes viewport-proportional (`78vw`), so the layout keeps
-  filling the screen instead of floating as a narrow column on large monitors
-  or when the page is zoomed out.
+### 2.5 Breakpoints
+
+- `< 768px`: single column; condensed navigation with a menu and theme toggle;
+  hero product cards stack.
+- `768–1024px`: uniform two-column project grid.
+- `> 1024px`: full layout; quick facts beside About; contact form beside
+  socials.
+- `1280px+`: type/spacing scale grows with the viewport.
+- `1600px+`: shell becomes viewport-proportional (`78vw`).
 
 ---
 
 ## 3. Signature components
 
-### 3.1 Status bar (navigation)
-Fixed top, `44px` tall, `--bg-0/90` with backdrop blur and bottom hairline.
+### 3.1 Navigation bar
+
+Fixed `64px` tall, `bg-background/85` with `backdrop-blur-md` and a bottom
+hairline.
+
+- Left: serif **Ammar** wordmark plus a small `PORTFOLIO` label, linking to
+  `#top`.
+- Right: standard text navigation — About, Stack, Projects, Experience,
+  Contact — with an animated underline driven by an `IntersectionObserver`
+  scrollspy.
+- Theme toggle shows the current variant (`Dark` with a moon, `Dawn` with a sun)
+  and exposes `aria-label`, `aria-pressed`, and a descriptive title.
+- Mobile: wordmark, theme toggle, and a proper menu icon. The menu is a
+  full-width text list; `Esc` closes it.
+
+### 3.2 Section headers
+
+`SectionHeader` receives an index, title, optional eyebrow, and description.
+
+- Small mono index (`01`, `02`, …) in `--primary`.
+- Playfair section title.
+- An uppercase eyebrow on the right at desktop sizes.
+- A full-width hairline and an optional readable description below.
+
+No shell commands, prompts, or fake output.
+
+### 3.3 Quick facts
+
+The About section pairs the narrative with an **At a glance** card:
 
 ```
-ammar@portfolio:~$                          about  projects  experience  contact
+At a glance                         QUICK FACTS
+───────────────────────────────────────────────
+Role            Backend, Web & Security Engineer
+Focus           Secure APIs, full-stack apps, auditing
+Education       D-IV Informatics, Polnes
+Location        Lhokseumawe, Aceh, ID
+Core stack      Go · Laravel · React · Supabase
+Infrastructure  Linux VPS · Caddy · Cloudflare
+Security        Auditing · SSRF · Header hardening
+Status          Open to internships
 ```
 
-- Left: identity, links to top.
-- Right: section links, mono, lowercase, `--fg-muted`; active gets `--accent` + `[ about ]` brackets.
-- Scrollspy driven by `IntersectionObserver`.
-- Mobile: identity + `:` button opening a full-width menu styled as a command list.
+Rows are separated by hairlines; the card lifts gently on hover.
 
-### 3.2 Terminal window
-Reusable frame used by the hero and each project card.
+### 3.4 Project cards & filters
 
-```
-┌─ ammar@lhokseumawe ────────────────────────┐
-│                                            │
-│  $ whoami                                  │
-│  Ammar                                     │
-│                                            │
-└────────────────────────────────────────────┘
-```
-
-- Title bar `32px`, mono `0.75rem`, `--fg-dim`, bottom border.
-- Optional traffic dots replaced by a single `●` in `--accent` to avoid the macOS cliché.
-- Body padding `20px` mobile / `28px` desktop.
-
-### 3.3 Prompt
-- `$` in `--accent`, command in `--fg`, output in `--fg-muted`.
-- Blinking block caret `▊` at the end of interactive lines (1s step-end), disabled under `prefers-reduced-motion`.
-- Section headers reuse it: `$ cat about.md`, `$ ls ~/projects`, `$ git log --career`, `$ mail ammar`.
-
-### 3.4 Neofetch panel
-Text-only panel: spec table in the About section. No portrait is published.
-
-```
-ammar@lhokseumawe
-─────────────────
-Role        Backend / Web Developer
-Education   D-IV Teknik Informatika, Polnes
-Location    Lhokseumawe, Aceh, ID
-Languages   PHP · TypeScript · Go · Python · Bash
-Frameworks  Laravel · Supabase · React
-Tools       Git · GitHub · Linux CLI
-Status      Open to internships
-```
-
-The panel is text-only; no portrait is published on the site or in the resume.
-
-### 3.5 Career log
-Experience, education, and certification rendered as `git log --career`:
-
-```
-* 2025  cert    VSGA — Web Developer
-* 2024  edu     D-IV Teknik Informatika — Politeknik Negeri Lhokseumawe
-* 2023  work    Atjeh Mediatama Indonesia — Internship (PKL)
-* 2020  edu     SMK Negeri 2 Lhokseumawe — Visual Communication Design
-```
-
-- Left rail `2px` with commit nodes.
-- Hash column in `--fg-dim`, type tag in `--accent`, content in `--fg`.
-- Bullets under work entries stay in `--fg-muted`.
+- Every card uses the same structure and sizing: category, optional **Featured**
+  badge, serif title, subtitle, type/version, outcome bullets, stack chips, and
+  footer links.
+- The grid is always `grid-cols-1 md:grid-cols-2`. Featured projects do **not**
+  span two columns; they only receive the badge in the top-right corner.
+- `Live Demo ↗` appears only when `liveUrl` exists; `Source ↗` only when `repo`
+  exists. Links open in a new tab with `noopener noreferrer`.
+- Category tabs (`All`, `Security & API`, `Web Apps`, `CLI / Go`) are derived
+  from `projectCategories`, exposed as a `role="group"` with `aria-pressed`, and
+  animated with a shared `layoutId` pill.
+- Cards animate with Framer Motion `layout` inside `AnimatePresence
+  mode="popLayout"`; the live count reads `NN / NN projects`.
+- A new object in `projects.js` automatically appears in the grid, filters, and
+  resume generator. The website always renders all projects and all bullets.
 
 ---
 
 ## 4. Page structure & copy
 
-Single page. Anchor ids: `#about`, `#projects`, `#experience`, `#contact`.
+Single page. Anchors: `#top`, `#about`, `#stack`, `#projects`, `#experience`,
+`#contact`.
 
-### 4.1 Hero — `$ whoami`
+### 4.1 Hero
 
-**Output**
 ```
-Ammar
-Backend & Web Developer
-D-IV Information Technology student · Lhokseumawe, Indonesia
+BACKEND · WEB · SECURITY                    LHOKSEUMAWE, INDONESIA — UTC+7
+────────────────────────────────────────────────────────────────────────
+INDEPENDENT PORTFOLIO · 2026
+
+Ammar.
+
+Backend, Web & Security Engineer
+D-IV INFORMATICS ENGINEERING STUDENT · POLNES
+
+I build secure backends, fast web apps, and interfaces that feel effortless —
+from Go APIs on a Linux VPS to React frontends on the edge.
+
+[ View selected work ]  [ Get in touch ]  Download CV ↓
 ```
 
-**Subline**
-> I build web applications with Laravel, Supabase, and Go — and I care about how
-> they feel, not just how they work.
+- Right rail: open-to-work status, focus, current work, base, and a short
+  editorial quote.
+- Two live-product cards below, derived from featured projects with a `liveUrl`:
+  Vibe-Check (`scan.ammarramma.dev`) and mapi
+  (`api.ammarramma.dev/healthz`).
 
-**Status pill:** `● Open to internship opportunities`
-**CTAs:** `[ view projects ]` → `#projects` · `[ get in touch ]` → `#contact`
-**Secondary:** `resume.pdf ↓` (only once a PDF exists)
+### 4.2 About
 
-### 4.2 About — `$ cat about.md`
+Three paragraphs:
+1. D-IV Informatics Engineering student working across backend, full-stack, and
+   web security with Go/Gin, Laravel, React/TypeScript, and Supabase, shipped to
+   Linux VPS and Cloudflare's edge.
+2. Security by default: automated auditing, SSRF/header hardening, rate
+   limiting, secret-leak detection, plus self-managed Caddy/systemd/Cloudflare
+   infrastructure.
+3. Visual Communication Design background → hierarchy and clarity in complex
+   dashboards; learning in public through live products.
 
-> I'm an Information Technology student at Politeknik Negeri Lhokseumawe,
-> focused on web and backend development. I build applications with PHP,
-> Laravel, JavaScript, and TypeScript, and I integrate Supabase for
-> authentication, databases, and data storage.
->
-> I work from the terminal — Git, GitHub, and the Linux CLI are part of my daily
-> workflow. Before IT, I studied Visual Communication Design, which is why I
-> care about hierarchy, clarity, and interfaces that don't need explaining.
->
-> I'm currently looking for an internship where I can contribute to a real
-> software team and keep learning in public.
+Plus the quick-facts card (3.3) and three small context chips.
 
-Plus the **neofetch panel** (3.4).
+### 4.3 Stack
 
-### 4.3 Skills — `$ stack --list`
-
-Grouped tags, no percentage bars (they imply precision that doesn't exist).
+Grouped tags; no percentage bars (they imply precision that does not exist).
 
 | Group | Items |
 |---|---|
-| Languages | PHP, JavaScript, TypeScript, Go, Python, Bash |
-| Backend & Data | Laravel, Supabase, MySQL, Relational Database Design |
-| Frontend | React, HTML, CSS |
+| Languages | Go, TypeScript, JavaScript, PHP, Python, Bash, SQL |
+| Backend & APIs | Gin, Laravel, REST API Design, Supabase, MySQL, Relational DB Design |
+| Frontend | React, Tailwind CSS, HTML, CSS, Vite |
+| Cloud & Infra | Cloudflare Workers, Cloudflare Edge, Caddy, Linux VPS, systemd |
+| Security | Web Security Auditing, SSRF Mitigation, HTTP Header Hardening, Secret & Leak Scanning, Rate Limiting |
 | Tools & Workflow | Git, GitHub, Linux CLI, PHPUnit |
-| Focus | Web Development, Backend Development, Automation |
 
-### 4.4 Projects — `$ ls ~/projects`
+Pills lift and shift to the ring color on hover/focus.
 
-Three cards, each a Terminal window with project name, version/status, stack
-chips, bullets, and a repo link.
+### 4.4 Projects
 
-**SIPERPUS PNL** · `v1.3.0` · Team project
-React · JavaScript · TypeScript · Supabase
-- Contributed to a web application for library management.
-- Built interface components and application features.
-- Integrated Supabase for authentication, database, and data storage.
-- Collaborated in a shared team repository.
-→ `github.com/RPL-TI-3B/ver3`
+Five projects in a uniform two-column grid; all bullets are shown.
 
-**Prayer Times** · `v0.1.1` · Personal project
-Go
-- Built a terminal UI application in Go to display prayer times.
-- Implemented a keyboard-driven terminal interface.
-- Published a GitHub release with a distributable binary.
-→ `github.com/ammarramma/prayer-times`
+**Vibe-Check Security Scanner** · `v1.0.0` · released · featured
+Security & API · React 19 · TypeScript · Tailwind CSS · Cloudflare Workers
 
-**Group Manage** · `in development` · Personal project
-PHP · Laravel · MySQL
-- Built a Laravel application for group task management.
-- Implemented task creation, assignment, and status tracking.
-- Added authorization and data validation.
-- Tested features with PHPUnit.
-→ `github.com/ammarramma/group-manage`
+**mapi — Modular API Gateway** · `v1.0.0` · released · featured
+Security & API · Go · Gin · Caddy · Linux VPS · systemd
 
-### 4.5 Experience — `$ git log --career`
+**SIPERPUS PNL** · `v1.3.0` · released
+Web Apps · React · TypeScript · Supabase · Tailwind CSS
 
-**Atjeh Mediatama Indonesia** · 2023 · Internship (PKL)
-- Supported print media production and printing operations.
-- Operated production equipment and assisted with simple design work.
-- Supported daily operations as required by the team.
+**Prayer Times** · `v0.1.1` · released
+CLI / Go · Go · TUI
 
-**Pendidikan**
-- Politeknik Negeri Lhokseumawe — D-IV Teknik Informatika (2024–present)
-- SMK Negeri 2 Lhokseumawe — Visual Communication Design (2020–2021, 2022–2024)
+**Group Manage** · in development
+Web Apps · PHP · Laravel · MySQL · PHPUnit
 
-**Certification**
-- VSGA — Web Developer (2025)
+Copy and links live in `src/data/projects.js`; the site is the complete view.
 
-### 4.6 Contact — `$ mail ammar`
+### 4.5 Experience
 
-> Have a project, an internship opening, or just want to talk shop? My inbox is
-> open.
+A clean timeline rather than a commit log: year, type, role or school, metadata,
+and optional bullets. Work uses iris, education uses muted, certification uses a
+contrast-safe warm tone.
 
-Form (EmailJS retained) styled as prompt lines:
-```
-from:     [ your name            ]
-email:    [ you@example.com      ]
-message:  [ ...                  ]
-          [ send message ]
-```
-- Success state: `$ message sent` + `I'll get back to you within a day or two.`
-- Direct links: email, GitHub, LinkedIn.
-- Email split by media lifespan: the site uses `contact@ammarramma.dev`
-  (tied to the domain), while `resume.pdf` uses `ammarramma.work@gmail.com`
-  so printed CVs keep working if the domain ever expires.
+### 4.6 Contact
 
-### 4.7 Footer — `$ exit`
+- Left: short invitation, direct links (email, GitHub, LinkedIn), and location.
+- Right: a titled card with Name, Email, and Message fields.
+- Success reads **Message sent.** with a reply expectation; errors are announced
+  through `aria-live` and offer the direct email as a fallback.
+- The site uses `contact@ammarramma.dev` (domain-bound); `resume.pdf` uses
+  `ammarramma.work@gmail.com` so printed CVs survive a domain change.
+- EmailJS env names remain `VITE_EMAILJS_SERVICE_ID`,
+  `VITE_EMAILJS_TEMPLATE_ID`, and `VITE_EMAILJS_PUBLIC_KEY`.
 
-`© 2026 Ammar · Built with React, Tailwind, and too much time in the terminal.`
-Links: GitHub · LinkedIn · Email · Back to top.
+### 4.7 Footer
+
+Serif wordmark, a one-line positioning statement, social links, and back to top.
+No shell prompt or terminal joke.
 
 ---
 
-## 5. Motion
+## 5. Resume PDF
 
-- Hero lines stagger `80ms`, `translateY(8px)` + fade, once.
-- Section content reveals on view: `12px` rise, `400ms`, `once: true`.
-- Caret blink `1s step-end infinite`.
-- Nav active state: instant color, `120ms` underline width transition.
-- Hover: `>` prefix slides `4px`, border shifts to `--line-strong`.
-- All motion disabled under `prefers-reduced-motion: reduce`.
+`scripts/generate-resume.mjs` generates **exactly one A4 page**.
+
+- Page margin `34pt`; compact body type `8.4pt`, project titles `9.2pt`, project
+  gap `10pt`.
+- Two columns: education / certification / skills on the left; profile,
+  projects, and experience on the right.
+- The PDF shows the first four projects (`projects.slice(0, 4)`), with up to
+  three of the most important bullets per project. The website still shows every
+  project and every bullet.
+- No continuation header, page-two flow, or multi-page footer.
+- The script asserts that the measured content ends above the bottom margin.
 
 ---
 
-## 6. Accessibility & quality
+## 6. Motion
 
-- WCAG AA contrast for all text (`--fg-muted` on `--bg-0` passes).
-- Visible `:focus-visible` ring: `2px solid var(--accent-strong)`, offset `3px`.
+- Hero: container/item variants with `90ms` stagger and `80ms` delay; items
+  fade + rise `14px` over `500ms` with `[0.22, 1, 0.36, 1]`.
+- Sections: `Reveal` uses `whileInView`, `16px` rise, `500ms`, once.
+- Project filters: shared-layout pill; grid reflows with `layout` and
+  `AnimatePresence mode="popLayout"`.
+- Hover: `200ms` lift (`-translate-y-1`), border → `ring/60`, shadow `md`;
+  buttons use a smaller `-translate-y-0.5`.
+- Everything is disabled by `useReducedMotion` and a global
+  `prefers-reduced-motion` CSS block, including hover transforms and smooth
+  scrolling.
+
+---
+
+## 7. Accessibility & quality
+
+- Text contrast is AA in both variants; low-opacity text is limited to
+  decorative separators and placeholders.
+- Visible `:focus-visible` ring: `2px solid var(--ring)`, offset `3px`.
 - Semantic landmarks: `header`, `nav`, `main`, `section`, `footer`; skip link.
-- Real `<label>` for every form field; errors announced via `aria-live`.
-- Mobile menu keyboard operable, `Esc` closes, focus returns to trigger.
+- Real `<label>` for every form field; status messages via `aria-live`.
+- Filter buttons expose `aria-pressed`; the theme toggle exposes
+  `aria-label`/`aria-pressed`.
+- Mobile menu is keyboard operable; `Esc` closes it.
 - No text baked into images.
-- Target Lighthouse: 95+ on all four categories.
+- Target Lighthouse: 95+ across all categories.
 
 ---
 
-## 7. Implementation plan
+## 8. Implementation map
 
-1. **Data layer** — `src/data/profile.js`, `src/data/projects.js` with CV as the
-   single source of truth.
-2. **Tokens** — Tailwind v4 `@theme` in `src/index.css`; fonts in `index.html`.
-3. **Primitives** — `TerminalWindow`, `Prompt`, `SectionHeader`, `StatusPill`,
-   `Reveal`.
+1. **Data** — `src/data/profile.js` (identity, about, facts, skills, career)
+   and `src/data/projects.js` (schema, projects, derived categories).
+2. **Tokens** — Tailwind v4 `@theme inline` + Rosé Pine variables in
+   `src/index.css`; fonts and pre-paint theme script in `index.html`.
+3. **Primitives** — `SectionHeader`, `StatusPill`, `Reveal`, `StatusBar`,
+   `Footer`.
 4. **Sections** — `Hero`, `About`, `Skills`, `Projects`, `Experience`, `Contact`.
-5. **Shell** — `StatusBar` (nav + scrollspy), `Footer`.
-6. **Routing** — remove `react-router-dom`; one page + anchor navigation.
-7. **Pass** — responsive, keyboard, reduced motion, lint, build.
+5. **Resume** — `scripts/generate-resume.mjs` renders the same data to a
+   single-page A4 PDF.
+6. **Pass** — responsive, keyboard, reduced motion, lint, build, PDF check.
 
-### Out of scope (for now)
+### Out of scope
+
 - Blog / writing section.
 - CMS or backend for content.
 - Custom 3D or WebGL.
+- Sponsor/donation UI.
 
 ---
 
-## 8. Resolved decisions
+## 9. Resolved decisions
 
-1. **Resume PDF** — generated from the data layer with `npm run resume`
-   (`scripts/generate-resume.mjs`) and served from `public/resume.pdf`.
-   Text-only, no photo.
-2. **Arch Linux** — kept in the neofetch panel.
+1. **Resume PDF** — generated from the data layer with `npm run resume` and
+   served from `public/resume.pdf`; text-only, no photo, one page.
+2. **Project grid** — uniform cards; the Featured badge replaces the old
+   full-width featured treatment.
 3. **Phone number** — kept private; the site shows email, GitHub, and LinkedIn
    only.
 4. **SIPERPUS repo** — `github.com/RPL-TI-3B/ver3` is public and linked.
+5. **Theme default** — dark (Rosé Pine Main); Dawn Light is opt-in and persisted
+   in `localStorage`.
+6. **Hero pattern** — the dotted background is a masked pseudo-element, not a
+   mask on the section, so content stays fully opaque.

@@ -1,8 +1,8 @@
 # Ammar — Portfolio
 
-Personal portfolio for **Ammar**, a backend and web developer based in
-Lhokseumawe, Indonesia. Built as a single-page, terminal-inspired site: every
-section is framed as a shell command and its output.
+Personal portfolio for **Ammar**, a backend, web, and security engineer based in
+Lhokseumawe, Indonesia. A single-page editorial portfolio built around clear
+typography, a calm Rosé Pine palette, and a uniform project grid.
 
 ## Stack
 
@@ -35,12 +35,14 @@ The dev server runs on `http://localhost:5173` by default.
 
 All copy and project data live in two files:
 
-- `src/data/profile.js` — identity, about, neofetch specs, skills, career
-- `src/data/projects.js` — project cards
+- `src/data/profile.js` — identity, about, quick facts, skills, career
+- `src/data/projects.js` — project cards, status/version metadata, and derived
+  filter categories
 
-These are the single source of truth. The resume PDF is generated from the same
-data, so updating the site content and running `npm run resume` keeps both in
-sync.
+These are the single source of truth. Add a project object and the grid,
+category tabs, and resume pick it up automatically. The site shows every project
+and every bullet; the one-page resume uses the first four projects with a
+shortened bullet list to stay on one A4 page.
 
 ## Design
 
@@ -49,16 +51,21 @@ The visual direction, tokens, components, and copy decisions are documented in
 
 Highlights:
 
-- Near-black phosphor palette with a single green accent.
-- JetBrains Mono for structure, IBM Plex Sans for body copy.
-- Reusable terminal window, prompt, status pill, and `git log` timeline.
+- Rosé Pine palette: dark by default, with a persisted Dawn Light toggle in the
+  navigation bar.
+- Playfair for display, Atkinson Hyperlegible for body copy, JetBrains Mono for
+  small technical metadata.
+- Editorial section headers with small Rosé Pine index numbers.
+- A uniform two-column project grid; featured work is marked with a badge rather
+  than a layout exception.
+- Filterable project grid with animated layout transitions and live/source links.
 - Motion respects `prefers-reduced-motion`.
 
 ## Project structure
 
 ```
 src/
-  components/   StatusBar, Footer, TerminalWindow, SectionHeader, StatusPill, Reveal
+  components/   StatusBar, Footer, SectionHeader, StatusPill, Reveal
   data/         profile.js, projects.js
   sections/     Hero, About, Skills, Projects, Experience, Contact
   App.jsx

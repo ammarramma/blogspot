@@ -1,10 +1,10 @@
 export const profile = {
   name: 'Ammar',
   handle: 'ammar',
-  role: 'Backend & Web Developer',
-  headline: 'D-IV Information Technology student',
+  role: 'Backend, Web & Security Engineer',
+  headline: 'D-IV Informatics Engineering Student · Polnes',
   location: 'Lhokseumawe, Aceh, Indonesia',
-  status: 'Open to internship opportunities',
+  status: 'Open to internship & collaboration',
   email: 'contact@ammarramma.dev',
   // Long-lived address for resumes and primary accounts; the domain address
   // above is only guaranteed to live as long as the site domain does.
@@ -15,42 +15,65 @@ export const profile = {
   linkedinLabel: 'linkedin.com/in/ammarramma',
   resume: '/resume.pdf',
   tagline:
-    'I build web applications with Laravel, Supabase, and Go — and I care about how they feel, not just how they work.',
+    'I build secure backends, fast web apps, and interfaces that feel effortless — from Go APIs on a Linux VPS to React frontends on the edge.',
   about: [
-    "I'm an Information Technology student at Politeknik Negeri Lhokseumawe, focused on web and backend development. I build applications with PHP, Laravel, JavaScript, and TypeScript, and I integrate Supabase for authentication, databases, and data storage.",
-    "I work from the terminal — Git, GitHub, and the Linux CLI are part of my daily workflow. Before IT, I studied Visual Communication Design, which is why I care about hierarchy, clarity, and interfaces that don't need explaining.",
-    "I'm currently looking for an internship where I can contribute to a real software team and keep learning in public.",
+    "I'm a D-IV Informatics Engineering student at Politeknik Negeri Lhokseumawe who works across backend, full-stack, and web security. I build with Go/Gin, Laravel, React/TypeScript, and Supabase — then ship to Linux VPS and Cloudflare's edge.",
+    'Security is part of how I build, not an afterthought: automated security auditing, SSRF and header hardening, rate limiting, and secret-leak detection. I also run my own infrastructure with Caddy, systemd, and Cloudflare.',
+    'Before IT I studied Visual Communication Design, so hierarchy and clarity come naturally. That background is why my dashboards and interfaces stay legible even when the system underneath is complex — and why I keep learning in public through real, live products.',
   ],
-  neofetch: [
-    ['Role', 'Backend / Web Developer'],
+  facts: [
+    ['Role', 'Backend, Web & Security Engineer'],
+    ['Focus', 'Secure APIs, full-stack apps, auditing'],
     ['Education', 'D-IV Informatics, Polnes'],
     ['Location', 'Lhokseumawe, Aceh, ID'],
-    ['Languages', 'PHP · TypeScript · Go · Python · Bash'],
-    ['Frameworks', 'Laravel · Supabase · React'],
-    ['Tools', 'Git · GitHub · Linux CLI'],
-    ['OS', 'Arch Linux'],
+    ['Core stack', 'Go · Laravel · React · Supabase'],
+    ['Infrastructure', 'Linux VPS · Caddy · Cloudflare'],
+    ['Security', 'Auditing · SSRF · Header hardening'],
     ['Status', 'Open to internships'],
   ],
   skills: [
     {
       group: 'Languages',
-      items: ['PHP', 'JavaScript', 'TypeScript', 'Go', 'Python', 'Bash'],
+      items: ['Go', 'TypeScript', 'JavaScript', 'PHP', 'Python', 'Bash', 'SQL'],
     },
     {
-      group: 'Backend & Data',
-      items: ['Laravel', 'Supabase', 'MySQL', 'Relational DB Design'],
+      group: 'Backend & APIs',
+      items: [
+        'Gin',
+        'Laravel',
+        'REST API Design',
+        'Supabase',
+        'MySQL',
+        'Relational DB Design',
+      ],
     },
     {
       group: 'Frontend',
-      items: ['React', 'HTML', 'CSS'],
+      items: ['React', 'Tailwind CSS', 'HTML', 'CSS', 'Vite'],
+    },
+    {
+      group: 'Cloud & Infra',
+      items: [
+        'Cloudflare Workers',
+        'Cloudflare Edge',
+        'Caddy',
+        'Linux VPS',
+        'systemd',
+      ],
+    },
+    {
+      group: 'Security',
+      items: [
+        'Web Security Auditing',
+        'SSRF Mitigation',
+        'HTTP Header Hardening',
+        'Secret & Leak Scanning',
+        'Rate Limiting',
+      ],
     },
     {
       group: 'Tools & Workflow',
       items: ['Git', 'GitHub', 'Linux CLI', 'PHPUnit'],
-    },
-    {
-      group: 'Focus',
-      items: ['Web Development', 'Backend Development', 'Automation'],
     },
   ],
   career: [

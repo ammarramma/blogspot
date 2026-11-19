@@ -1,27 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0c0b" />
+    <meta name="theme-color" content="#191724" />
     <meta
       name="description"
-      content="Ammar — Backend and web developer based in Lhokseumawe, Indonesia. I build web applications with Laravel, Supabase, and Go."
+      content="Ammar — Backend, Web & Security Engineer in Lhokseumawe, Indonesia. Go/Gin APIs, Laravel and React applications, Cloudflare edge tooling, and automated web security auditing."
     />
-    <meta property="og:title" content="Ammar — Backend & Web Developer" />
+    <meta property="og:title" content="Ammar — Backend, Web & Security Engineer" />
     <meta
       property="og:description"
-      content="D-IV Information Technology student building web applications with Laravel, Supabase, and Go."
+      content="D-IV Informatics Engineering student building secure Go APIs, full-stack web apps, and edge security tooling."
     />
     <meta property="og:type" content="website" />
-    <title>Ammar — Backend & Web Developer</title>
+    <title>Ammar — Backend, Web & Security Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair:ital,wght@0,400;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
+    <script>
+      // Apply the stored Rosé Pine variant before first paint to avoid a flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var theme = stored === 'light' ? 'light' : 'dark'
+          var root = document.documentElement
+          root.classList.toggle('dark', theme === 'dark')
+          root.dataset.theme = theme
+          root.style.colorScheme = theme
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) {
+            meta.setAttribute('content', theme === 'dark' ? '#191724' : '#faf4ed')
+          }
+        } catch (error) {
+          /* localStorage can be unavailable in private modes. */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

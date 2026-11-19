@@ -9,142 +9,149 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 const PAGE_W = 595.28
 const PAGE_H = 841.89
-const M = 42
-const GAP = 24
-const LEFT_W = 168
+const M = 34
+const GAP = 22
+const LEFT_W = 158
 const RIGHT_X = M + LEFT_W + GAP
 const RIGHT_W = PAGE_W - M - RIGHT_X
+const CONTENT_BOTTOM = PAGE_H - M
 
-const ink = '#171a17'
-const muted = '#56605a'
-const dim = '#8b938d'
-const accent = '#2f7d4f'
-const amber = '#9a6b12'
-const line = '#d8ddd9'
+const BODY = 8.4
+const PROJECT_TITLE = 9.2
+const PROJECT_GAP = 10
+const PDF_PROJECTS = projects.slice(0, 4)
+const pdfBullets = (project) => project.bullets.slice(0, 3)
+
+/* Rosé Pine Dawn, tuned for print. */
+const ink = '#191724'
+const muted = '#575279'
+const dim = '#797593'
+const accent = '#286983'
+const gold = '#b07d2b'
+const line = '#dfdad9'
 
 const doc = new PDFDocument({
   size: 'A4',
   margin: 0,
   info: {
-    Title: 'Ammar — Resume',
-    Author: 'Ammar',
-    Subject: 'Backend & Web Developer',
-    Keywords: 'resume, backend, web developer, laravel, supabase, go',
+    Title: `${profile.name} — Resume`,
+    Author: profile.name,
+    Subject: profile.role,
+    Keywords:
+      'resume, backend, web security, go, gin, laravel, react, cloudflare',
   },
 })
 
 doc.pipe(fs.createWriteStream(path.join(root, 'public', 'resume.pdf')))
 
-/* ---------- header ---------- */
+/* ---------- primitives ---------- */
 
-const textX = M
-
-doc
-  .font('Helvetica-Bold')
-  .fontSize(27)
-  .fillColor(ink)
-  .text(profile.name.toUpperCase(), textX, 37, { characterSpacing: 1 })
-
-doc
-  .font('Helvetica')
-  .fontSize(10)
-  .fillColor(accent)
-  .text(profile.role, textX, 70)
-
-doc
-  .fontSize(8.3)
-  .fillColor(muted)
-  .text(`${profile.headline} · ${profile.location}`, textX, 85)
-
-const contact = [
-  profile.resumeEmail,
-  profile.githubLabel,
-  profile.linkedinLabel,
-  profile.location,
-]
-
-doc.font('Courier').fontSize(7.6).fillColor(muted)
-contact.forEach((item, index) => {
-  doc.text(item, PAGE_W - M - 190, 39 + index * 12, {
-    width: 190,
-    align: 'right',
-  })
-})
-
-doc
-  .moveTo(M, 112)
-  .lineTo(PAGE_W - M, 112)
-  .lineWidth(0.8)
-  .strokeColor(ink)
-  .stroke()
-
-/* ---------- helpers ---------- */
+function rule(x, y, width, color = line, weight = 0.5) {
+  doc
+    .moveTo(x, y)
+    .lineTo(x + width, y)
+    .lineWidth(weight)
+    .strokeColor(color)
+    .stroke()
+}
 
 function sectionLabel(y, label, x = M, width = LEFT_W) {
   doc
-    .font('Courier-Bold')
-    .fontSize(7.6)
+    .font('Helvetica-Bold')
+    .fontSize(7.2)
     .fillColor(accent)
-    .text(label.toUpperCase(), x, y, {
-      width,
-      characterSpacing: 1.3,
-    })
+    .text(label.toUpperCase(), x, y, { width, characterSpacing: 1.1 })
 
-  const ruleY = y + 11
-  doc
-    .moveTo(x, ruleY)
-    .lineTo(x + width, ruleY)
-    .lineWidth(0.5)
-    .strokeColor(line)
-    .stroke()
-
-  return ruleY + 8
+  const ruleY = y + 9
+  rule(x, ruleY, width)
+  return ruleY + 7
 }
 
 function entry(y, title, meta, x = M, width = LEFT_W) {
   doc
     .font('Helvetica-Bold')
-    .fontSize(9.4)
+    .fontSize(8.8)
     .fillColor(ink)
     .text(title, x, y, { width })
-  y = doc.y + 1.5
+  y = doc.y + 1
 
   doc
     .font('Helvetica')
-    .fontSize(8.2)
+    .fontSize(7.6)
     .fillColor(muted)
-    .text(meta, x, y, { width, lineGap: 1.6 })
+    .text(meta, x, y, { width, lineGap: 1.1 })
 
   return doc.y
 }
 
-function paragraph(y, text, x = RIGHT_X, width = RIGHT_W, size = 9.2) {
+function paragraph(y, text, x, width) {
   doc
     .font('Helvetica')
-    .fontSize(size)
+    .fontSize(BODY)
     .fillColor(muted)
-    .text(text, x, y, { width, lineGap: 2.4 })
+    .text(text, x, y, { width, lineGap: 1.4 })
 
   return doc.y
 }
 
-function bullets(y, items, x = RIGHT_X, width = RIGHT_W) {
-  doc.font('Helvetica').fontSize(9)
+function bullets(y, items, x, width, size = BODY) {
+  doc.font('Helvetica').fontSize(size)
 
   items.forEach((item) => {
-    doc.fillColor(accent).text('•', x, y, { width: 8 })
+    doc.fillColor(accent).text('•', x, y, { width: 7, lineBreak: false })
     doc
       .fillColor(muted)
-      .text(item, x + 9, y, { width: width - 9, lineGap: 2 })
-    y = doc.y + 3
+      .text(item, x + 8, y, { width: width - 8, lineGap: 1.2 })
+    y = doc.y + 1.8
   })
 
   return y
 }
 
-/* ---------- left column ---------- */
+/* ---------- header ---------- */
 
-let leftY = 130
+function header() {
+  doc
+    .font('Helvetica-Bold')
+    .fontSize(25)
+    .fillColor(ink)
+    .text(profile.name.toUpperCase(), M, M, { characterSpacing: 0.8 })
+
+  doc
+    .font('Helvetica')
+    .fontSize(9.5)
+    .fillColor(accent)
+    .text(profile.role, M, 61)
+
+  doc
+    .fontSize(7.8)
+    .fillColor(muted)
+    .text(`${profile.headline} · ${profile.location}`, M, 75)
+
+  const contact = [
+    profile.resumeEmail,
+    profile.githubLabel,
+    profile.linkedinLabel,
+    profile.location,
+  ]
+
+  doc.font('Courier').fontSize(7.2).fillColor(muted)
+  contact.forEach((item, index) => {
+    doc.text(item, PAGE_W - M - 190, M + index * 10, {
+      width: 190,
+      align: 'right',
+    })
+  })
+
+  rule(M, 94, PAGE_W - M * 2, ink, 0.8)
+  return 104
+}
+
+/* ---------- page 1 ---------- */
+
+const contentTop = header()
+
+let leftY = contentTop
 
 leftY = sectionLabel(leftY, 'Education')
 leftY = entry(
@@ -152,94 +159,110 @@ leftY = entry(
   'Politeknik Negeri Lhokseumawe',
   'D-IV Teknik Informatika\n2024 – present',
 )
-leftY += 10
+leftY += 6
 leftY = entry(
   leftY,
   'SMK Negeri 2 Lhokseumawe',
   'Visual Communication Design\n2020 – 2021, 2022 – 2024',
 )
-leftY += 18
+leftY += 10
 
 leftY = sectionLabel(leftY, 'Certification')
 leftY = entry(leftY, 'VSGA — Web Developer', 'Vocational certification · 2025')
-leftY += 18
+leftY += 10
 
 leftY = sectionLabel(leftY, 'Skills')
 
 profile.skills.forEach((group) => {
   doc
     .font('Helvetica-Bold')
-    .fontSize(7.8)
+    .fontSize(7.4)
     .fillColor(ink)
     .text(group.group, M, leftY, { width: LEFT_W })
-  leftY = doc.y + 1.5
+  leftY = doc.y + 1
 
   doc
     .font('Helvetica')
-    .fontSize(8.4)
+    .fontSize(8)
     .fillColor(muted)
     .text(group.items.join(', '), M, leftY, {
       width: LEFT_W,
-      lineGap: 1.8,
+      lineGap: 1.2,
     })
-  leftY = doc.y + 9
+  leftY = doc.y + 6
 })
 
 /* ---------- right column ---------- */
 
-let rightY = 130
+let rightY = sectionLabel(contentTop, 'Profile', RIGHT_X, RIGHT_W)
 
-rightY = sectionLabel(rightY, 'Profile', RIGHT_X, RIGHT_W)
-rightY = paragraph(rightY, profile.about.join(' '))
-rightY += 18
+profile.about.forEach((text, index) => {
+  rightY = paragraph(rightY, text, RIGHT_X, RIGHT_W)
+  if (index < profile.about.length - 1) rightY += 3
+})
 
+rightY += 8
 rightY = sectionLabel(rightY, 'Projects', RIGHT_X, RIGHT_W)
 
-projects.forEach((project) => {
-  const titleY = rightY
+function projectLinks(project) {
+  return [project.liveUrl, project.repo]
+    .filter(Boolean)
+    .map((url) => url.replace(/^https?:\/\//, '').replace(/\/$/, ''))
+    .join('  ·  ')
+}
 
+function drawProject(project, x, width, y) {
   doc
     .font('Helvetica-Bold')
-    .fontSize(10)
+    .fontSize(PROJECT_TITLE)
     .fillColor(ink)
-    .text(project.title, RIGHT_X, titleY, { width: RIGHT_W - 110 })
+    .text(project.title, x, y, { width: width - 100 })
 
   const afterTitle = doc.y
 
+  const status = [
+    project.version,
+    project.status === 'development' ? 'in development' : 'released',
+  ]
+    .filter(Boolean)
+    .join(' · ')
+
   doc
     .font('Courier')
-    .fontSize(7.6)
-    .fillColor(project.status === 'development' ? amber : accent)
-    .text(
-      [project.version, project.status === 'development' ? 'in development' : null]
-        .filter(Boolean)
-        .join(' · '),
-      RIGHT_X,
-      titleY,
-      { width: RIGHT_W, align: 'right' },
-    )
+    .fontSize(6.8)
+    .fillColor(project.status === 'development' ? gold : accent)
+    .text(status, x, y, { width, align: 'right' })
 
-  rightY = Math.max(afterTitle, doc.y) + 2
+  y = Math.max(afterTitle, y + PROJECT_TITLE) + 1
 
   doc
     .font('Helvetica')
-    .fontSize(8.2)
+    .fontSize(7.4)
     .fillColor(muted)
-    .text(`${project.type} · ${project.stack.join(', ')}`, RIGHT_X, rightY, {
-      width: RIGHT_W,
-    })
-  rightY = doc.y + 4
+    .text(
+      `${project.category} · ${project.type} · ${project.stack.join(', ')}`,
+      x,
+      y,
+      { width, lineGap: 0.8 },
+    )
+  y = doc.y + 2.5
 
-  rightY = bullets(rightY, project.bullets)
+  y = bullets(y, pdfBullets(project), x, width)
 
   doc
     .font('Courier')
-    .fontSize(7.4)
+    .fontSize(6.6)
     .fillColor(dim)
-    .text(project.repo.replace('https://', ''), RIGHT_X + 9, rightY, {
-      width: RIGHT_W - 9,
+    .text(projectLinks(project), x + 8, y, {
+      width: width - 8,
+      lineGap: 0.8,
     })
-  rightY = doc.y + 16
+
+  return doc.y + PROJECT_GAP
+}
+
+PDF_PROJECTS.forEach((project) => {
+  rightY = drawProject(project, RIGHT_X, RIGHT_W, rightY)
 })
 
 rightY += 2
@@ -247,31 +270,21 @@ rightY = sectionLabel(rightY, 'Experience', RIGHT_X, RIGHT_W)
 
 const work = profile.career.find((item) => item.type === 'work')
 rightY = entry(rightY, work.title, work.meta, RIGHT_X, RIGHT_W)
-rightY += 4
-rightY = bullets(rightY, work.bullets)
+rightY += 3
+rightY = bullets(rightY, work.bullets, RIGHT_X, RIGHT_W)
 
-/* ---------- footer ---------- */
+/* ---------- finalize ---------- */
 
-const footerY = PAGE_H - 44
+const contentBottom = Math.max(leftY, rightY)
 
-doc
-  .moveTo(M, footerY)
-  .lineTo(PAGE_W - M, footerY)
-  .lineWidth(0.5)
-  .strokeColor(line)
-  .stroke()
-
-doc
-  .font('Courier')
-  .fontSize(7)
-  .fillColor(dim)
-  .text(
-    `${profile.resumeEmail}   ·   ${profile.githubLabel}   ·   ${profile.linkedinLabel}`,
-    M,
-    footerY + 8,
-    { width: PAGE_W - M * 2, align: 'center' },
+if (contentBottom > CONTENT_BOTTOM) {
+  throw new Error(
+    `Resume content overflows page 1 by ${(contentBottom - CONTENT_BOTTOM).toFixed(1)}pt`,
   )
+}
 
 doc.end()
 
-console.log('Wrote public/resume.pdf')
+console.log(
+  `Wrote public/resume.pdf (1 page, ${PDF_PROJECTS.length} projects, content ends at ${contentBottom.toFixed(1)}pt)`,
+)

@@ -1,17 +1,80 @@
+/**
+ * Project schema — add a new object here and the UI, filters, and resume
+ * pick it up automatically.
+ *
+ * slug        unique anchor id
+ * title       display name
+ * subtitle    one-line description
+ * category    one of the filter categories below
+ * version     semver string, or null while unreleased
+ * status      'released' | 'development'
+ * featured    true to show the Featured badge (grid stays uniform)
+ * type        project ownership / format label
+ * stack       technology chips
+ * bullets     outcome-focused highlights
+ * liveUrl     optional live product link
+ * liveLabel   display text for the live link
+ * repo        optional source URL
+ * repoLabel   display text for the source link
+ */
 export const projects = [
+  {
+    slug: 'vibe-check',
+    title: 'Vibe-Check Security Scanner',
+    subtitle: 'Web security & leak scanner for AI coding agents',
+    category: 'Security & API',
+    version: 'v1.0.0',
+    status: 'released',
+    featured: true,
+    type: 'Personal project · Web application',
+    stack: ['React 19', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+    bullets: [
+      'Audits 27 HTTP security headers, TLS 1.3, exposed sensitive files, and leaked secrets in under 600 ms.',
+      'Turns findings into a prioritized, human-readable score with a Markdown export built for AI coding agents.',
+      'Runs entirely on Cloudflare Workers at the edge, with a focused React 19 dashboard and no backend to maintain.',
+      'Designed as a pre-deploy check: paste a URL and get an actionable fix list on one screen.',
+    ],
+    liveUrl: 'https://scan.ammarramma.dev',
+    liveLabel: 'scan.ammarramma.dev',
+    repo: 'https://github.com/ammarramma/vibecheck',
+    repoLabel: 'ammarramma / vibecheck',
+  },
+  {
+    slug: 'mapi',
+    title: 'mapi — Modular API Gateway',
+    subtitle: 'Production Go API behind a hardened edge',
+    category: 'Security & API',
+    version: 'v1.0.0',
+    status: 'released',
+    featured: true,
+    type: 'Personal project · Backend service',
+    stack: ['Go', 'Gin', 'Caddy', 'Linux VPS', 'systemd'],
+    bullets: [
+      'Modular monolith REST API in Go/Gin, split into domain modules behind a shared middleware pipeline.',
+      'Layered SSRF protection, per-IP token-bucket rate limiting, and an anti-OOM concurrency guard.',
+      'Caddy handles automatic TLS and reverse proxying while systemd keeps the service supervised and self-healing.',
+      'Health-checked and served publicly at api.ammarramma.dev.',
+    ],
+    liveUrl: 'https://api.ammarramma.dev/healthz',
+    liveLabel: 'api.ammarramma.dev/healthz',
+    repo: 'https://github.com/ammarramma/mapi',
+    repoLabel: 'ammarramma / mapi',
+  },
   {
     slug: 'siperpus',
     title: 'SIPERPUS PNL',
-    subtitle: 'Library Management System',
+    subtitle: 'Library management system',
+    category: 'Web Apps',
     version: 'v1.3.0',
     status: 'released',
+    featured: false,
     type: 'Team project · Web application',
-    stack: ['React', 'JavaScript', 'TypeScript', 'Supabase'],
+    stack: ['React', 'TypeScript', 'Supabase', 'Tailwind CSS'],
     bullets: [
-      'Contributed to a web application for library management.',
-      'Built interface components and application features.',
-      'Integrated Supabase for authentication, database, and data storage.',
-      'Collaborated in a shared team repository.',
+      'Built role-aware library workflows for cataloging, lending, returns, and member records.',
+      'Shipped reusable React/TypeScript interface components wired to Supabase auth, Postgres, and storage.',
+      'Kept schema, policies, and UI changes in sync with a four-person team across a shared repository.',
+      'Iterated through three releases, now at v1.3.0.',
     ],
     repo: 'https://github.com/RPL-TI-3B/ver3',
     repoLabel: 'RPL-TI-3B / ver3',
@@ -19,15 +82,17 @@ export const projects = [
   {
     slug: 'prayer-times',
     title: 'Prayer Times',
-    subtitle: 'Terminal application',
+    subtitle: 'Terminal prayer schedule in Go',
+    category: 'CLI / Go',
     version: 'v0.1.1',
     status: 'released',
+    featured: false,
     type: 'Personal project · TUI',
-    stack: ['Go'],
+    stack: ['Go', 'TUI'],
     bullets: [
-      'Built a terminal UI application in Go to display prayer times.',
-      'Implemented a keyboard-driven terminal interface.',
-      'Published a GitHub release with a distributable binary.',
+      'Built a keyboard-driven terminal UI in Go that shows the next prayer window and the full daily schedule.',
+      'Kept the interface compact enough for SSH sessions and low-resource machines.',
+      'Published a versioned GitHub release with a ready-to-run binary.',
     ],
     repo: 'https://github.com/ammarramma/prayer-times',
     repoLabel: 'ammarramma / prayer-times',
@@ -36,17 +101,23 @@ export const projects = [
     slug: 'group-manage',
     title: 'Group Manage',
     subtitle: 'Team task management',
+    category: 'Web Apps',
     version: null,
     status: 'development',
+    featured: false,
     type: 'Personal project · Web application',
-    stack: ['PHP', 'Laravel', 'MySQL'],
+    stack: ['PHP', 'Laravel', 'MySQL', 'PHPUnit'],
     bullets: [
-      'Built a Laravel application for group task management.',
-      'Implemented task creation, assignment, and status tracking.',
-      'Added authorization and data validation.',
-      'Tested features with PHPUnit.',
+      'Laravel app for group task management with creation, assignment, and status tracking.',
+      'Authorization policies and request validation keep each group’s data scoped correctly.',
+      'Covered core flows with PHPUnit feature tests before layering on new features.',
     ],
     repo: 'https://github.com/ammarramma/group-manage',
     repoLabel: 'ammarramma / group-manage',
   },
+]
+
+export const projectCategories = [
+  'All',
+  ...new Set(projects.map((project) => project.category)),
 ]
